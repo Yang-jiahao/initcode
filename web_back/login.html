@@ -9,6 +9,7 @@
     <link rel="stylesheet" type="text/css" href="css/reset.css">
     <link rel="stylesheet" type="text/css" href="css/iconfont.css">
     <link rel="stylesheet" type="text/css" href="css/main.css">
+    <script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
 </head>
 
 <body>
@@ -23,11 +24,42 @@
             <form class="login_form">
                 <i class="iconfont icon-user"></i>
                 <i class="iconfont icon-key"></i>
-                <input type="text" class="input_txt" placeholder="邮箱/手机号">
-                <input type="password" class="input_pass" placeholder="密码">
-                <input type="submit" class="input_sub" value="登 录">
+                <input type="text" id="username" class="input_txt" placeholder="邮箱/手机号">
+                <input type="password" id="password" class="input_pass" placeholder="密码">
+                <input id="loginSub" type="button" class="input_sub" value="登 录">
+                <!--  重点 将type类型从submit改为 button  如果点击submit的话页面进行跳转 前面的信息和状态都消失掉 -->
             </form>
         </div>
-    </div> 
+    </div>
 </body>
+<script>
+    // 1 用户注册
+    // 思路
+    // 给按钮添加点击事件
+    $('#loginSub').on('click', function() {
+        // alert('1')
+        var login = $('#username').val().trim();
+        var password = $('#password').val().trim();
+        // (1)收集用户信息，简单判断
+        if (login.length === 0) {
+            alert('请输入账号,密码')
+        }
+        // console.log(login, password);
+        $.post('http://192.168.172.82:8000/admin/login', {
+            user_name: login,
+            password: password
+        }).then(function(res) {
+            console.log(res);
+            if (res.code === 200) {
+                window.location.href = 'index.html'
+            } else {
+                alert(res.msg)
+            }
+        })
+    })
+
+
+    // (2)请求ajax接口，根据接口返回做后续动作
+</script>
+
 </html>
