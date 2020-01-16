@@ -11,6 +11,8 @@
     <link rel="stylesheet" href="css/iconfont.css">
     <link rel="stylesheet" href="css/main.css">
     <script src="js/jquery-1.12.4.min.js"></script>
+    <script src="./js/utils/config.js"></script>
+    <script src="./js/utils/user.js"></script>
 </head>
 
 <body>
@@ -18,7 +20,7 @@
         <a href="#" class="logo"><img src="images/logo02.png" alt="logo"></a>
         <div class="user_info">
             <img src="images/2.jpg" alt="person" class="change">
-            <span>欢迎&nbsp;&nbsp;<i id="lss">李思思</i> </span>
+            <span>欢迎&nbsp;&nbsp;<i id="lss" style="font-style: normal;">李思思</i> </span>
             <b>管理员</b>
         </div>
         <div class="menu">
@@ -53,26 +55,12 @@
     </div>
 
     <!-- **************************************自己写的代码 -->
-    <script>
-        var back_ = {
-            back_1: function() {
-                $.post('http://192.168.172.82:8000/admin/logout').then(function() {
-                    window.location.href = 'login.html'
-                })
-            }
-        }
-    </script>
+
     <script>
         $('#back').on('click', function() {
-            back_.back_1();
+            user.back();
         })
-        $.get('http://192.168.172.82:8000/admin/getuser').then(function(res) {
-            console.log(res);
-            var hh = res.data.nickname;
-            $('#lss').text('hh')
-            $('.change').attr('src', res.data.user_pic)
-
-        })
+        user.getInfo();
     </script>
 
     <!-- **********************************************结束 -->

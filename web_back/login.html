@@ -10,6 +10,9 @@
     <link rel="stylesheet" type="text/css" href="css/iconfont.css">
     <link rel="stylesheet" type="text/css" href="css/main.css">
     <script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
+    <script src="./js/utils/config.js"></script>
+    <script src="./js/utils/user.js"></script>
+
 </head>
 
 <body>
@@ -32,23 +35,7 @@
         </div>
     </div>
 </body>
-<script>
-    var user = {
-        login: function(login, password) {
-            $.post('http://192.168.172.82:8000/admin/login', {
-                user_name: login,
-                password: password
-            }).then(function(res) {
-                console.log(res);
-                if (res.code === 200) {
-                    window.location.href = 'index.html'
-                } else {
-                    alert(res.msg)
-                }
-            })
-        }
-    }
-</script>
+
 <script>
     // 1 用户注册
     // 思路
