@@ -71,6 +71,16 @@
             //     }
             // })
     })
+    $('#password').on('keydown', function(e) {
+            if (e.keyCode == 13) {
+                $('#loginSub').click();
+            }
+        })
+        // $('#password').onkeydown = function(e) {
+        //     if (e.keyCode == 13) {
+        //         $('#loginSub').click();
+        //     }
+        // }
 
 
     // (2)请求ajax接口，根据接口返回做后续动作

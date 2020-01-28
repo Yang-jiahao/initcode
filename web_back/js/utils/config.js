@@ -1,5 +1,5 @@
 // 所有接口基地址
-var BASEURL = 'http://192.168.172.83:8000'
+var BASEURL = 'http://192.168.0.107:8000'
     // 所有接口
 var APILIST = {
     user_login: BASEURL + '/admin/login',
