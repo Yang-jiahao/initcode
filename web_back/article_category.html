@@ -12,6 +12,13 @@
     <link rel="stylesheet" href="css/main.css">
     <script src="js/jquery-1.12.4.min.js"></script>
     <script src="js/bootstrap/js/bootstrap.min.js"></script>
+    <!-- 引入工具文件夹中的  接口配置文件  -->
+    <script src="./js/utils/config.js"></script>
+    <!-- 引入工具文件夹中的  模块化管理  文件类别-->
+    <script src="./js/utils/category.js"></script>
+    <!-- 引入模板字符串 -->
+    <script src="./js/art-template-web.js"></script>
+    <!-- <script src="https://cdn.bootcss.com/template_js/0.8.0/template.min.js"></script> -->
 </head>
 
 <body>
@@ -28,46 +35,15 @@
                         <th class="text-center" width="100">操作</th>
                     </tr>
                 </thead>
-                <tbody>
-                    <tr>
+                <tbody id="category_tbody">
+                    <!-- <tr>
                         <td>未分类</td>
                         <td>uncategorized</td>
                         <td class="text-center">
-                            <a href="javascript:editTr({&quot;id&quot;:&quot;1&quot;,&quot;slug&quot;:&quot;uncategorized&quot;,&quot;name&quot;:&quot;未分类&quot;});"
-                                class="btn btn-info btn-xs">编辑</a>
+                            <a href="javascript:editTr({&quot;id&quot;:&quot;1&quot;,&quot;slug&quot;:&quot;uncategorized&quot;,&quot;name&quot;:&quot;未分类&quot;});" class="btn btn-info btn-xs">编辑</a>
                             <a href="javascript:deleteTr( 1 );" class="btn btn-danger btn-xs">删除</a>
                         </td>
-                    </tr>
-
-                    <tr>
-                        <td>奇趣事</td>
-                        <td>funny</td>
-                        <td class="text-center">
-                            <a href="javascript:editTr({&quot;id&quot;:&quot;2&quot;,&quot;slug&quot;:&quot;funny&quot;,&quot;name&quot;:&quot;奇趣事&quot;});"
-                                class="btn btn-info btn-xs">编辑</a>
-                            <a href="javascript:deleteTr( 2 );" class="btn btn-danger btn-xs">删除</a>
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <td>会生活</td>
-                        <td>living</td>
-                        <td class="text-center">
-                            <a href="javascript:editTr({&quot;id&quot;:&quot;3&quot;,&quot;slug&quot;:&quot;living&quot;,&quot;name&quot;:&quot;会生活&quot;});"
-                                class="btn btn-info btn-xs">编辑</a>
-                            <a href="javascript:deleteTr( 3 );" class="btn btn-danger btn-xs">删除</a>
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <td>爱旅行</td>
-                        <td>travel</td>
-                        <td class="text-center">
-                            <a href="javascript:editTr({&quot;id&quot;:&quot;4&quot;,&quot;slug&quot;:&quot;travel&quot;,&quot;name&quot;:&quot;爱旅行&quot;});"
-                                class="btn btn-info btn-xs">编辑</a>
-                            <a href="javascript:deleteTr( 4 );" class="btn btn-danger btn-xs">删除</a>
-                        </td>
-                    </tr>
+                    </tr> -->
                 </tbody>
                 <tfoot>
                     <tr>
@@ -79,7 +55,7 @@
             </table>
         </div>
     </div>
-
+    <!-- ******添加的模态框 -->
     <div class="modal fade" id="addModal">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -90,12 +66,12 @@
                 <div class="modal-body">
                     <form>
                         <div class="form-group">
-                            <label for="recipient-name" class="control-label">分类名称:</label>
-                            <input type="text" class="form-control" id="recipient-name">
+                            <label for="name" class="control-label">分类名称:</label>
+                            <input type="text" class="form-control" name="name" id="name">
                         </div>
                         <div class="form-group">
-                            <label for="message-text" class="control-label">分类别名:</label>
-                            <input type="text" class="form-control" id="recipient-name">
+                            <label for="slug" class="control-label">分类别名:</label>
+                            <input type="text" class="form-control" id="slug" name="slug">
                         </div>
                     </form>
                 </div>
@@ -106,29 +82,187 @@
             </div>
         </div>
     </div>
+    <!-- *******新增的编辑的模态框 -->
+    <div class="modal fade" id="editModal">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"></button>
+                    <h4 class="modal-title">编辑分类</h4>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <input type="hidden" id="edit_id">
+                        <div class="form-group">
+                            <label for="edit_name" class="control-label">分类名称:</label>
+                            <input type="text" class="form-control" name="name" id="edit_name">
+                        </div>
+                        <div class="form-group">
+                            <label for="edit_slug" class="control-label">分类别名:</label>
+                            <input type="text" class="form-control" id="edit_slug" name="slug">
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" id="model_back">退出</button>
+                    <button type="button" class="btn btn-primary" id="model_save">保存</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script id="category_get1" type="html/text">
+        {{each data item}}
+        <tr>
+            <td>{{item.name}}</td>
+            <td>{{item.slug}}</td>
+            <td class="text-center">
+                <a href="javascript:;" edit_name="{{item.name}}" edit_slug="{{item.slug}}" edit_id="{{item.id}}" class="btn btn-info btn-xs edit">编辑</a>
+                <a href="javascript:;" class="btn btn-danger btn-xs del" delId="{{item.id}}">删除</a>
+            </td>
+        </tr>
+        {{/each}}
+    </script>
 
     <script>
+        // $.get('http://192.168.0.107:8000/admin/category_search').then(function(res) {
+        //     console.log(res)
+        // })
+        // *********************************获取**********
+        getAndShow();
+
+        function getAndShow() {
+            categroy.categroy_get().then(function(res) {
+                // console.log(res);
+                var htmlcateGet = template('category_get1', res);
+                // console.log(htmlcateGet);
+                $('#category_tbody').html(htmlcateGet);
+            })
+        };
+
+        // **********************************************新增*******************
+
+        $('#model_add').on('click', function() {
+                // 记住去掉空格
+                var doc = $('#name').val().trim();
+                var txt = $('#slug').val().trim();
+                // console.log(doc);
+                if (doc.length == 0 || txt.length == 0) {
+                    alert('请输入新增内容')
+                        // 这块是用return 而不使用else的原因就是让一个语句尽早结束
+                    return;
+                }
+                categroy.categroy_add(doc, txt).then(function(res) {
+                    if (res.code === 200) {
+                        // 清空模态框的输入 
+                        $('#name').val('')
+                        $('#slug').val('')
+                            // 点击新增是模态框隐藏
+                        $('#addModal').modal('hide')
+                            // 重新加载信息
+                        getAndShow();
+                    } else {
+                        alert(res.msg)
+                    }
+                })
+            })
+            // onclick不能用于$操作  只能用于原生操作
+        $('#model_shutoff').onclick = function() {
+                $('#name').val('');
+                $('#slug').val('');
+                $('#addModal').modal('hide');
+
+
+            }
+            // *******************************删除**************************
+            // 1.由于删除dom节点 动态生成，所以设置事件委托进行删除
+        $('#category_tbody').on('click', '.del', function(e) {
+            // 2.获取id值
+            var id = $(this).attr('delId');
+            console.log(id);
+            // 3.传入参数
+            categroy.categroy_del(id).then(function(res) {
+                // 4.重新加载页面
+                if (res.code === 200) {
+                    getAndShow()
+                } else {
+                    alert(res.msg)
+                }
+            })
+        })
+
+        // ******************************编辑***********************
+        // 1.给编辑按钮添加点击事件
+        $('#category_tbody').on('click', '.edit', function(e) {
+
+            // 3。模态框中有原有的值   在信息加载的时候设置自定义属性，让里面包含所需要的内容
+            // alert(1)
+            // 获取自定义属性中  原本的值
+            var name = $(this).attr('edit_name')
+            var slug = $(this).attr('edit_slug')
+            var id = $(this).attr('edit_id')
+                // 将原本的值添加进input框中显示
+            $('#edit_name').val(name)
+            $('#edit_slug').val(slug)
+            $('#edit_id').val(id)
+
+            // 2.弹出模态框
+            $('#editModal').modal('show')
+        })
+
+        // 4.将修改后的值进行传入
+        // 给保存按钮设置点击事件获取所需要的信息
+        $('#model_save').click(function() {
+            // 获取到修改后的数据信息  去前后空格
+            var newName = $('#edit_name').val().trim();
+            var newSlug = $('#edit_slug').val().trim();
+            if (newSlug.length === 0 || newName.length === 0) {
+                alert('所输入信息有误')
+                return;
+            }
+            // id不能被修改
+            var newId = $('#edit_id').val();
+            // console.log(newName, newSlug);
+            // 进行后台数据操作
+            categroy.categroy_revise(newId, newName, newSlug).then(
+                function(res) {
+                    // 5.重新加载页面
+                    if (res.code === 200) {
+                        $('#editModal').modal('hide')
+                        getAndShow()
+                    } else {
+                        alert(res.msg)
+                    }
+                }
+            )
+
+        })
+        $('#model_back').click(function() {
+            $('#editModal').modal('hide');
+        })
+
+
+
         // $('#addModal').modal({
         //     show: false,
         //     backdrop: false
         // });
 
-        // $('#model_shutoff').click(function () {
+        // $('#model_shutoff').click(function() {
         //     alert('shutoff');
         //     $('#addModal').modal('hide');
         // });
 
-        // $('#model_add').click(function () {
+        // $('#model_add').click(function() {
         //     alert('add');
         //     $('#addModal').modal('hide');
         // });
 
-        // $('.category_table').delegate('a', 'click', function () {
+        // $('.category_table').delegate('a', 'click', function() {
         //     if ($(this).hasClass('btn-info')) {
         //         $('#addModal .modal-title').html('修改分类名称');
         //         $('#addModal').modal('show');
         //     }
-        // })      
+        // })
     </script>
 
 </body>
