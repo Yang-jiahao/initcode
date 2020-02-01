@@ -35,11 +35,13 @@
                             <option>爱旅行</option> -->
                         </select>
                         <select id="selStatus" name="" class="form-control input-sm">
-                            <option>所有状态</option>
-                            <option value="drafted">草稿</option>
-                            <option value="published">已发布</option>
+                           
+
+                            <option calue=''>所有状态</option>
+                            <option value="草稿">草稿</option>
+                            <option value="已发布">已发布</option>
                         </select>
-                        <button id="btnSearch" class="btn btn-default btn-sm">筛选</button>
+                        <button id="btnSearch" type="button" "btn btn-default btn-sm">筛选</button>
                     </form>
                 </div>
                 <div class="col-xs-6">
@@ -107,9 +109,9 @@
 
     <!-- 文章分类的模板 -->
     <script id="select" type="html/text">
-        <option select="selected">所有分类</option>
+        <option select="selected" value=''>所有分类</option>
         {{each data item}}
-        <option>{{item.name}}</option>
+        <option value='{{item.id}}'>{{item.name}}</option>
         {{/each}}
     </script>
     <!-- 文章列表内容的模板 -->
@@ -123,7 +125,7 @@
             <td class="text-center">{{item.state}}</td>
             <td class="text-center">
                 <a href="article_edit.html" class="btn btn-default btn-xs">编辑</a>
-                <a href="javascript:deleteTr( 1005 );" class="btn btn-danger btn-xs">删除</a>
+                <a href="javascript:;" del="{{item.id}}" class="btn btn-danger btn-xs del">删除</a>
             </td>
         </tr>
         {{/each}}
@@ -138,17 +140,26 @@
                 $('#selCategory').html(htmloption)
             })
             // 获取文章
+
+
         var currentPage = 1;
+        var type = '';
+        var status = '';
+        var currentTotalpage;
         getAndShow();
 
         function getAndShow() {
-            article.get(currentPage).then(function(res) {
+            article.get(currentPage, type, status).then(function(res) {
                 console.log(res);
                 var htmlarticle = template('tmp_article', res)
                 if (res.code === 200) {
                     $('#tbody').html(htmlarticle)
+                    if (currentTotalpage !== res.totalPage) {
+                        $('#pagination-demo').twbsPagination('destroy')
+                        currentTotalpage = res.totalPage;
+                    }
                     $('#pagination-demo').twbsPagination({
-                        totalPages: res.totalPage,
+                        totalPages: currentTotalpage,
                         visiblePages: 10,
                         first: '首页',
                         prev: '上一页',
@@ -167,6 +178,38 @@
 
             })
         }
+
+
+        // 设置筛选的点击事件
+        $('#btnSearch').click(function() {
+                currentPage = 1;
+                type = $('#selCategory').val();
+                status = $('#selStatus').val();
+                console.log(type, status);
+                getAndShow();
+
+            })
+            // 删除
+            // 1.设置事件委托的点击事件
+        $('#tbody').on('click', '.del', function() {
+            // alert(1)
+            // 询问客户是否进行删除
+            // 今早结束代码
+            if (!confirm('您确定进行删除吗？')) {
+                return;
+            }
+            // 2获取参数进行传参。将参数用自定义属性赋值给删除按钮
+            var del = $(this).attr('del');
+            article.del(del).then(function(res) {
+                console.log(res);
+                if (res.code === 200) {
+                    getAndShow();
+                } else {
+                    alert(res.msg)
+                }
+
+            })
+        })
     </script>
 
 </body>
