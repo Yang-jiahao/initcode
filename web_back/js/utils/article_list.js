@@ -4,6 +4,14 @@ var article = {
     },
     del: function(del) {
         return $.get(APILIST.article_del, { 'id': del })
-
+    },
+    add: function(fd) {
+        return $.ajax({
+            url: APILIST.article_add,
+            data: fd,
+            type: 'post',
+            contentType: false,
+            processData: false,
+        })
     }
 }
