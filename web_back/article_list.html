@@ -15,6 +15,7 @@
     <script src="./js/utils/category.js"></script>
     <script src="./js/utils/article_list.js"></script>
     <script src="./js/art-template-web.js"></script>
+    <script src="../js库/jquery.twbsPagination.min.js"></script>
 </head>
 
 <body>
@@ -78,7 +79,8 @@
             </table>
 
             <div class="row text-center">
-                <ul class="pagination pagination-sm">
+                <ul id="pagination-demo" class="pagination-sm"></ul>
+                <!-- <ul class="pagination pagination-sm">
                     <li class="page-item first disabled"><a href="#" class="page-link">首页</a></li>
                     <li class="page-item prev disabled"><a href="#" class="page-link">上一页</a></li>
                     <li class="page-item active"><a href="#" class="page-link">1</a></li>
@@ -90,7 +92,7 @@
                     <li class="page-item"><a href="#" class="page-link">7</a></li>
                     <li class="page-item next"><a href="#" class="page-link">下一页</a></li>
                     <li class="page-item last"><a href="#" class="page-link">尾页</a></li>
-                </ul>
+                </ul> -->
             </div>
 
         </div>
@@ -136,16 +138,35 @@
                 $('#selCategory').html(htmloption)
             })
             // 获取文章
-        article.get().then(function(res) {
-            console.log(res);
-            var htmlarticle = template('tmp_article', res)
-            if (res.code === 200) {
-                $('#tbody').html(htmlarticle)
-            } else {
-                alert(res.msg)
-            }
+        var currentPage = 1;
+        getAndShow();
 
-        })
+        function getAndShow() {
+            article.get(currentPage).then(function(res) {
+                console.log(res);
+                var htmlarticle = template('tmp_article', res)
+                if (res.code === 200) {
+                    $('#tbody').html(htmlarticle)
+                    $('#pagination-demo').twbsPagination({
+                        totalPages: res.totalPage,
+                        visiblePages: 10,
+                        first: '首页',
+                        prev: '上一页',
+                        last: '尾页',
+                        next: '下一页',
+                        initiateStartPageClick: false, //	插件初始化时在起始页面上取消点击
+                        onPageClick: function(event, page) {
+                            currentPage = page;
+                            getAndShow();
+                            // alert(page)
+                        }
+                    });
+                } else {
+                    alert(res.msg)
+                }
+
+            })
+        }
     </script>
 
 </body>
