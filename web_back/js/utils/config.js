@@ -1,6 +1,10 @@
 // 所有接口基地址
 var BASEURL = 'http://192.168.0.107:8000'
-    // 所有接口
+    // var BASEURL = 'http://localhost:8000'
+    // 老师放在阿里上的 2.4---3.4 一个月时间
+    // var BASEURL = 'http://39.99.130.177:8000'
+
+// 所有接口
 var APILIST = {
     // 用户界面
     user_login: BASEURL + '/admin/login',
