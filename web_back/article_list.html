@@ -124,7 +124,8 @@
             <td class="text-center">{{item.date}}</td>
             <td class="text-center">{{item.state}}</td>
             <td class="text-center">
-                <a href="article_edit.html" class="btn btn-default btn-xs">编辑</a>
+                <!-- 在文章编辑功能中这块需要添加查询字符串传递参数过去 -->
+                <a href="article_edit.html?id={{item.id}}" class="btn btn-default btn-xs">编辑</a>
                 <a href="javascript:;" del="{{item.id}}" class="btn btn-danger btn-xs del">删除</a>
             </td>
         </tr>

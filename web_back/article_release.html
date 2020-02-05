@@ -37,46 +37,47 @@
                 <div class="form-group">
                     <label for="inputPassword3" class="col-sm-2 control-label">文章封面：</label>
                     <div class="col-sm-10">
-                        <input type="file" name="cover" id="exampleInputFile">
+                        <input type="file" name="cover" id="cover">
+                        <label for="cover"> <img src="https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=2269375293,2134957199&fm=26&gp=0.jpg" alt="" id="cov">
+                    </div></label>
                     </div>
-                </div>
-                <div class="form-group">
-                    <label for="inputEmail3" class="col-sm-2 control-label">文章类别：</label>
-                    <div class="col-sm-4">
-                        <select name="type" class="form-control" id="artCategroy">
+                    <div class="form-group">
+                        <label for="inputEmail3" class="col-sm-2 control-label">文章类别：</label>
+                        <div class="col-sm-4">
+                            <select name="type" class="form-control" id="artCategroy">
                         </select>
+                        </div>
                     </div>
-                </div>
-                <div class="form-group">
-                    <label for="inputEmail3" class="col-sm-2 control-label">发布时间：</label>
-                    <div class="col-sm-4">
+                    <div class="form-group">
+                        <label for="inputEmail3" class="col-sm-2 control-label">发布时间：</label>
+                        <div class="col-sm-4">
 
-                        <div class="input-group">
-                            <input name="date" type="text" class="form-control" placeholder="YYYY-MM-DD" id="dateinput">
-                            <span class="input-group-btn">
+                            <div class="input-group">
+                                <input name="date" type="text" class="form-control" placeholder="YYYY-MM-DD" id="dateinput">
+                                <span class="input-group-btn">
                                 <button class="btn btn-default" type="button"
                                     onclick="jeDate('#dateinput',{trigger:false,format: 'YYYY-MM-DD'})"><i
                                         class="iconfont icon-icondate"></i></button>
                             </span>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="form-group">
-                    <label for="inputEmail3" class="col-sm-2 control-label">文章内容：</label>
-                    <div class="col-sm-10">
-                        <textarea class="form-control" id="rich_content" name="content" placeholder="文章内容">
+                    <div class="form-group">
+                        <label for="inputEmail3" class="col-sm-2 control-label">文章内容：</label>
+                        <div class="col-sm-10">
+                            <textarea class="form-control" id="rich_content" name="content" placeholder="文章内容">
                          请输入文章内容   </textarea>
+                        </div>
                     </div>
-                </div>
-                <div class="form-group">
-                    <div class="col-sm-offset-2 col-sm-10">
-                        <button type="button" id="addArticle" class="btn btn-success">发布</button>
-                        <button type="button" class="btn btn-default">存为草稿</button>
+                    <div class="form-group">
+                        <div class="col-sm-offset-2 col-sm-10">
+                            <button type="button" id="addArticle" class="btn btn-success">发布</button>
+                            <button type="button" class="btn btn-default">存为草稿</button>
+                        </div>
                     </div>
-                </div>
             </form>
+            </div>
         </div>
-    </div>
 
 
 </body>
@@ -95,6 +96,24 @@
             $('#artCategroy').html(htmlres)
         }
 
+    })
+    $('#cover').change(function() {
+        // console.log(this.files);
+        // 这个input中可以传入多个参数所以this.flies[0]
+        // 获取到所传文件的第一文件  文件对象
+        if (this.files[0]) {
+            $('#cov').attr('src', URL.createObjectURL(this.files[0]))
+        }
+        // var cover = this.files[0];
+        // // 给这个图片一个临时的链接地址
+        // console.log(URL.createObjectURL(this.files[0]));
+        // 将这个临时的链接地址添加到图片的src中
+        // $('#cov').attr('src', URL.createObjectURL(this.files[0]))
+        // 如果点击进选择文件的input 却退出了就会出现报错的现象，所以在初步要判断是否有这个files属性
+        else {
+            $('#cov').attr('src', 'https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=2269375293,2134957199&fm=26&gp=0.jpg')
+
+        }
     })
 
     // 给发布按钮设置点击事件并且点击之后不让其跳转

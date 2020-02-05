@@ -23,29 +23,29 @@
             文章编辑
         </div>
         <div class="container-fluid common_con">
-            <form class="form-horizontal article_form">
+            <form class="form-horizontal article_form" id="myform">
                 <div class="form-group">
                     <label for="inputEmail3" class="col-sm-2 control-label">文章标题：</label>
                     <div class="col-sm-10">
-                        <input type="email" class="form-control" id="inputEmail3" value="文章标题文字">
+                        <input type="text" class="form-control" name="title" id="title" value="文章标题文字">
                     </div>
                 </div>
                 <div class="form-group">
                     <label for="inputPassword3" class="col-sm-2 control-label">文章封面：</label>
                     <div class="col-sm-10">
-                        <img src="images/pic06.jpg" class="article_cover">
-                        <input type="file" id="exampleInputFile">
+                        <img src="images/pic06.jpg" class="article_cover" id="cover">
+                        <input type="file" id="exampleInputFile" name="cover">
                     </div>
                 </div>
                 <div class="form-group">
                     <label for="inputEmail3" class="col-sm-2 control-label">文章类别：</label>
                     <div class="col-sm-4">
-                        <select class="form-control">
-                            <option>类别一</option>
+                        <select class="form-control" name="type" id="type">
+                            <!-- <option>类别一</option>
                             <option>类别二</option>
                             <option>类别三</option>
                             <option selected>类别四</option>
-                            <option>类别五</option>
+                            <option>类别五</option> -->
                         </select>
                     </div>
                 </div>
@@ -54,7 +54,7 @@
                     <div class="col-sm-4">
 
                         <div class="input-group">
-                            <input type="text" class="form-control" value="2019-05-17" id="dateinput">
+                            <input type="text" class="form-control" value="2019-05-17" id="date" name="date">
                             <span class="input-group-btn">
                                 <button class="btn btn-default" type="button"
                                     onclick="jeDate('#dateinput',{trigger:false,format: 'YYYY-MM-DD'})"><i
@@ -71,11 +71,78 @@
                 </div>
                 <div class="form-group">
                     <div class="col-sm-offset-2 col-sm-10">
-                        <button type="submit" class="btn btn-success">修改</button>
+                        <button type="button" class="btn btn-success" id="edit">修改</button>
                     </div>
                 </div>
             </form>
         </div>
     </div>
+    <script src="./js/utils/config.js"></script>
+    <script src="./js/utils/category.js"></script>
+    <script src="./js/utils/article_list.js"></script>
+    <script src="./js/art-template-web.js"></script>
+    <script id="editCategroy" type="html/text">
+        {{each data item}}
+        <option value={{item.id}}>{{item.name}}</option>
+        {{/each}}
+    </script>
+    <script>
+        // 引入文档类型的js文件  以及文章类型的js文件   还有配置文件
+        // 传入点击时候通过a标签设置的查询字符串的id值
+        // 保存浏览器当前页面的url信息  window.location是一个对象
+        console.log(window.location);
+        // 这个对象中有一个属性 search  是当前页面的查询字符串  也就是文章列表页面 所添加的id
+        console.log(window.location.search);
+        // 将获取到的查询字符串进行裁剪
+        var id = window.location.search;
+        // 字符串.substr(从哪个字符的下标，截取几位)
+        id = id.substr(4)
+        getAndShowCategroy()
+            // console.log(id);
+            // 获取到文章的各种内容并且渲染到页面上
+        function getAndShow(id) {
+            article.getEdit(id).then(function(res) {
+                if (res.code === 200) {
+                    console.log(res);
+                    $('#title').val(res.data.title)
+                    $('#cover').attr('src', res.data.cover)
+                    $('#date').val(res.data.date)
+                    $('#rich_content').val(res.data.content)
+                    $('#type').val(res.data.type)
+                        // setTimeout(function() {
+                        //     tinymce.activeEditor.setContent(res.data.content)
+                        // }, 1000)
+                } else {
+                    alert(res.msg)
+                }
+
+            })
+        }
+
+        // 文章的类型在获取的时候出现一些注意点
+        function getAndShowCategroy() {
+            categroy.categroy_get().then(function(res) {
+                console.log(res);
+                if (res.code === 200) {
+                    var htmlStr = template('editCategroy', res)
+                    $('#type').html(htmlStr)
+                    getAndShow(id)
+                } else {
+                    alert(res.msg)
+                }
+
+            })
+        }
+
+        $('#edit').click(function() {
+            var fd = new FormData(document.getElementById('myform'))
+            fd.append('id', id)
+            fd.set('content', tinymce.activeEditor.getcontent())
+            article.edit(fd).then(function(res) {
+                console.log(res);
+            })
+        })
+    </script>
 </body>
+
 </html>
