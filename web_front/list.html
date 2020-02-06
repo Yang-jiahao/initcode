@@ -11,7 +11,7 @@
     <link rel="stylesheet" type="text/css" href="css/jquery.pagination.css">
     <link rel="stylesheet" type="text/css" href="css/main.css">
     <script type="text/javascript" src="js/jquery-1.12.4.min.js"></script>
-	<script type="text/javascript" src="js/jquery.pagination.min.js"></script>
+    <script type="text/javascript" src="js/jquery.pagination.min.js"></script>
 </head>
 
 <body>
@@ -31,17 +31,17 @@
         <div class="menu">
             <div class="menu_collapse fl">
                 <a href="javascript:;" class="level_one"><i class="fa fa-list-ul"></i>全部分类</a>
-                <ul class="level_two">
+                <ul class="level_two" id="selectLeft">
                     <li class="up"></li>
-                    <li><a href="#">最 新</a></li>
+                    <!-- <li><a href="#">最 新</a></li>
                     <li><a href="#">科 技</a></li>
                     <li><a href="#">股 市</a></li>
                     <li><a href="#">商 品</a></li>
                     <li><a href="#">外 汇</a></li>
-                    <li><a href="#">公 司</a></li>
+                    <li><a href="#">公 司</a></li> -->
                 </ul>
             </div>
-            <ul class="left_menu fl">
+            <ul class="left_menu fl" id="right">
                 <li><a href="#">最 新</a></li>
                 <li><a href="#">科 技</a></li>
                 <li><a href="#">股 市</a></li>
@@ -60,10 +60,10 @@
         <div class="left_con setfr">
 
             <div class="list_title">
-                <h3>科 技</h3>
+                <h3 id="categroy">科 技</h3>
             </div>
-
-            <div class="common_news_list">
+            <div id="Article"></div>
+            <!-- <div class="common_news_list">
                 <a href="#" class="list_pic"><img src="images/pic09.jpg" alt=""></a>
                 <h4><a href="#">亚马逊金融试水中国？背后却是和华尔街的“金融战争” </a></h4>
                 <p>亚马逊抛弃了中国的买家们，却难以割舍庞大的卖家市场，有消息指出亚马逊中国将针对中国庞大的卖家群体推出一项贷款推荐计划。在连续对印度、墨西哥等新兴市场大力推广线上支付服务后，亚马逊金融试水进军中国市场的信号终于被放出。
@@ -97,8 +97,8 @@
                         )&nbsp;&nbsp;&nbsp;<i class="fa fa-commenting"></i>&nbsp;评论( 10 )</span>
                     <b>发布于 2018-08-30 12:18:58</b>
                 </div>
-            </div>
-
+            </div> -->
+            <!-- 
             <div class="common_news_list">
                 <a href="#" class="list_pic"><img src="images/pic07.jpg" alt=""></a>
                 <h4><a href="#">马斯克的新花样？连接人脑和电脑的初创公司又筹了一笔钱</a></h4>
@@ -109,9 +109,9 @@
                         )&nbsp;&nbsp;&nbsp;<i class="fa fa-commenting"></i>&nbsp;评论( 10 )</span>
                     <b>发布于 2018-08-30 12:18:58</b>
                 </div>
-            </div>
+            </div> -->
 
-            <div class="common_news_list">
+            <!-- <div class="common_news_list">
                 <a href="#" class="list_pic"><img src="images/pic10.jpg" alt=""></a>
                 <h4><a href="#">马斯克的新花样？连接人脑和电脑的初创公司又筹了一笔钱</a></h4>
                 <p>亚马逊抛弃了中国的买家们，却难以割舍庞大的卖家市场，有消息指出亚马逊中国将针对中国庞大的卖家群体推出一项贷款推荐计划。在连续对印度、墨西哥等新兴市场大力推广线上支付服务后，亚马逊金融试水进军中国市场的信号终于被放出。
@@ -133,14 +133,14 @@
                         )&nbsp;&nbsp;&nbsp;<i class="fa fa-commenting"></i>&nbsp;评论( 10 )</span>
                     <b>发布于 2018-08-30 12:18:58</b>
                 </div>
-            </div>
+            </div> -->
 
             <div id="pagination" class="page"></div>
             <script>
                 $(function() {
                     $("#pagination").pagination({
                         currentPage: 2,
-                        totalPage:8,
+                        totalPage: 8,
                         callback: function(current) {
                             alert('ok!');
                         }
@@ -220,11 +220,78 @@
             <span>|</span>
             <a href="#">招聘人才</a>
             <span>|</span>
-            <a href="#">友情链接</a>		
+            <a href="#">友情链接</a>
         </div>
-        <p>CopyRight © 2019 深圳大事件信息技术股份有限公司   All Rights Reserved</p>
-        <p>电话：0755-****888    粤ICP备*******8号</p>
+        <p>CopyRight © 2019 深圳大事件信息技术股份有限公司 All Rights Reserved</p>
+        <p>电话：0755-****888 粤ICP备*******8号</p>
     </div>
+    <script src="./js/art-template-web.js"></script>
+    <script src="./js/jquery-1.12.4.min.js"></script>
+    <script src="./js/utils/config.js"></script>
+    <script src="./js/utils/category.js"></script>
+    <script src="js/utils/article_list.js"></script>
+    <!-- 文章类别的模板字符 -->
+    <script id="frontCategroy" type="text/html">
+        {{each data item}} {{if item.id==curType}}
+        <li class="cur"><a href="list.html?id={{item.id}}">{{item.name}}</a></li>
+        {{else}}
+        <li><a href="list.html?id={{item.id}}">{{item.name}}</a></li>
+        {{/if}} {{/each}}
+    </script>
+    <!--获取到各个类型的文章设置模板-->
+    <script id="frontArticle" type="text/html">
+        {{each data item}}
+        <div class="common_news_list">
+            <a href="#" class="list_pic"><img src={{item.cover}} alt=""></a>
+            <h4><a href="#">{{item.title}}</a></h4>
+            <p>{{item.content}}</p>
+            <div class="new_info">
+                <span>标签：{{item.type}}&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;<i class="fa fa-eye"></i>&nbsp;阅读( {{item.read}}
+                    )&nbsp;&nbsp;&nbsp;<i class="fa fa-commenting"></i>&nbsp;评论( {{item.comment}} )</span>
+                <b>发布于 {{item.date}}</b>
+            </div>
+        </div>
+        {{/each}}
+    </script>
+
+
+    <script>
+        // 获取index页面点击过来的id
+        var id = location.search.substring(4)
+        console.log(id);
+        // 文章类别的渲染操作
+        categroy.categroy_get().then(function(res) {
+
+            // 为了设置点击过来后的高亮效果
+            // 给res新增一个属性 == 于获取到的id 在模板字符串中进行筛选
+            res.curType = id;
+            console.log(res);
+            if (res.code === 200) {
+                var htmlStr = template('frontCategroy', res)
+                $('#selectLeft').append(htmlStr)
+                $('#right').html(htmlStr)
+                    // 对获取到的类别进行遍历
+                    // 找到id与点击的时候的id一致的类别渲染到页面上
+                res.data.forEach(function(item) {
+                    if (item.id == id) {
+                        $('#categroy').html(item.name)
+                    }
+                })
+            } else {
+                alert(res.msg)
+            }
+        })
+
+        // 通过id将页面上的文章渲染成 一个类别的
+        article.getarticle(id).then(function(res) {
+            console.log(res);
+            if (res.code === 200) {
+                var htmlStr = template('frontArticle', res)
+                $('#Article').html(htmlStr)
+            }
+        })
+    </script>
+
 
 </body>
 

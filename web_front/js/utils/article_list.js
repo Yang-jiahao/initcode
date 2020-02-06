@@ -15,6 +15,10 @@ var article = {
     },
     hot: function() {
         return $.get(APILIST.hot)
+    },
+    getarticle: function(id) {
+        return $.get(APILIST.get, { 'type': id })
+
     }
 
 }

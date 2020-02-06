@@ -124,8 +124,10 @@
             categroy.categroy_get().then(function(res) {
                 console.log(res);
                 if (res.code === 200) {
+                    // 渲染文章类型模板
                     var htmlStr = template('editCategroy', res)
                     $('#type').html(htmlStr)
+
                     getAndShow(id)
                 } else {
                     alert(res.msg)

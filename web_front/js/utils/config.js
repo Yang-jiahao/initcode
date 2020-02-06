@@ -15,5 +15,8 @@ var APILIST = {
     // 文章热门排行
     rank: BASEURL + '/rank',
     // 最新资讯
-    hot: BASEURL + '/lastest'
+    hot: BASEURL + '/lastest',
+    // 各种类型文章获取
+    get: BASEURL + '/search',
+
 }
