@@ -56,11 +56,11 @@
     <div class="main_con clearfix">
         <div class="left_con setfr">
             <div class="breadcrumb">
-                当前位置： <a href="#">首页</a> &gt; <a href="#">科技</a> &gt; 文章详情
+                当前位置： <a href="#">首页</a> &gt;<a href="#" id="href">科技</a> &gt; 文章详情
             </div>
-            <h3 class="article_title">马斯克的新花样？连接人脑和电脑的初创公司又筹了一笔钱</h3>
-            <div class="article_info">杰克 发布于 2019-05-08 07:08:46&nbsp;&nbsp;&nbsp;分类: 奇趣事&nbsp;&nbsp;&nbsp;阅读: (98)&nbsp;&nbsp;&nbsp;评论: (0)</div>
-            <div class="article_con">
+            <h3 class="article_title" id="title">马斯克的新花样？连接人脑和电脑的初创公司又筹了一笔钱</h3>
+            <div class="article_info"><span id="author">杰克</span> 发布于 <span id="date">2019-05-08 07:08:46</span>&nbsp;&nbsp;&nbsp;分类: <span id="type">奇趣事</span> &nbsp;&nbsp;&nbsp;阅读: (<span id="read">98</span> )&nbsp;&nbsp;&nbsp;评论: (<span id="comment">0</span> )</div>
+            <div class="article_con" id="content">
 
                 <p>“上天入地”还不够？硅谷“钢铁侠”马斯克名下一家低调的公司最近又融了一大笔钱。</p>
 
@@ -75,55 +75,55 @@
 
             </div>
             <div class="article_links">
-                上一篇： <a href="#">世界第一台可以玩游戏的冰箱</a><br> 下一篇： <a href="#">世界第一个可以玩游戏的马桶、世界上第一个可以玩游戏的茶杯</a>
+                上一篇： <a href="#" id="prev">世界第一台可以玩游戏的冰箱</a><br> 下一篇： <a href="#" id="next">世界第一个可以玩游戏的马桶、世界上第一个可以玩游戏的茶杯</a>
             </div>
 
             <form action="" class="comment_form">
                 <div class="form_group">
                     <label>用户名：</label>
-                    <input type="text" placeholder="请输入用户名" class="comment_name">
+                    <input type="text" placeholder="请输入用户名" class="comment_name" id='commentName'>
                 </div>
                 <div class="form_group">
                     <label>评论内容：</label>
-                    <textarea placeholder="请发表您的评论" class="comment_input"></textarea>
+                    <textarea placeholder="请发表您的评论" class="comment_input" id="commentContent"></textarea>
                 </div>
                 <div class="form_group">
-                    <input type="submit" name="" value="评 论" class="comment_sub"></div>
+                    <input type="button" name="" value="评 论" class="comment_sub" id="publishbtn"></div>
             </form>
 
-            <div class="comment_count">
+            <div class="comment_count" id="math">
                 4条评论
             </div>
 
-            <div class="comment_list_con">
-                <div class="comment_detail_list">
+            <div class="comment_list_con" id="comments">
+                <!-- <div class="comment_detail_list">
                     <div class="person_pic fl">乔</div>
                     <div class="name_time fl"><b>虚竹</b><span>4小时前</span></div>
                     <div class="comment_text fl">
                         遏制茅台酒价格过快上涨，多渠道供给，就不一定要买，租茅台酒也可以的，租售同权。开发共有产权茅台酒，让老百姓喝得起茅台酒，饮者有其酒。
                     </div>
-                </div>
-                <div class="comment_detail_list">
+                </div> -->
+                <!-- <div class="comment_detail_list">
                     <div class="person_pic fl">段</div>
                     <div class="name_time fl"><b>虚竹</b><span>4小时前</span></div>
                     <div class="comment_text fl">
                         遏制茅台酒价格过快上涨，多渠道供给，就不一定要买，租茅台酒也可以的，租售同权。开发共有产权茅台酒，让老百姓喝得起茅台酒，饮者有其酒。
                     </div>
-                </div>
-                <div class="comment_detail_list">
+                </div> -->
+                <!-- <div class="comment_detail_list">
                     <div class="person_pic fl">虚</div>
                     <div class="name_time fl"><b>虚竹</b><span>4小时前</span></div>
                     <div class="comment_text fl">
                         遏制茅台酒价格过快上涨，多渠道供给，就不一定要买，租茅台酒也可以的，租售同权。开发共有产权茅台酒，让老百姓喝得起茅台酒，饮者有其酒。
                     </div>
-                </div>
-                <div class="comment_detail_list">
+                </div> -->
+                <!-- <div class="comment_detail_list">
                     <div class="person_pic fl">王</div>
                     <div class="name_time fl"><b>虚竹</b><span>4小时前</span></div>
                     <div class="comment_text fl">
                         遏制茅台酒价格过快上涨，多渠道供给，就不一定要买，租茅台酒也可以的，租售同权。开发共有产权茅台酒，让老百姓喝得起茅台酒，饮者有其酒。
                     </div>
-                </div>
+                </div> -->
             </div>
         </div>
         <div class="right_con setfl">
@@ -204,11 +204,135 @@
     </div>
 
 </body>
+<script src="./js/art-template-web.js"></script>
+<script src="./js/jquery-1.12.4.min.js"></script>
+<script src="./js/utils/config.js"></script>
+<script src="./js/utils/category.js"></script>
+<script src="js/utils/article_list.js"></script>
+<!-- 评论的模板字符 -->
+<script id="commentS" type="html/text">
+    {{each data item}}
+    <div class="comment_detail_list">
+        <div class="person_pic fl">{{item.name.substring(0,1)}}</div>
+        <div class="name_time fl"><b>{{item.name}}</b><span>{{item.dt}}</span></div>
+        <div class="comment_text fl">
+            {{item.content}}
+        </div>
+    </div>
+    {{/each}}
+</script>
+
 <script>
     // 1.显示文章
-    // 2.上一篇下一篇文章
-    // 3.显示评论
+    // 根据点击时候 附加的查询字符串获取到id
+    var curId = location.search.substring(4)
+    console.log(curId);
+    // 新增一个全局变量
+    var num = null;
+
+    publishComment()
+
+    function publishComment() {
+        // 发ajax 获取信息 渲染页面
+        article.article(curId).then(function(res) {
+                console.log(res);
+                let {
+                    type_id,
+                    type_name,
+                    title,
+                    author,
+                    date,
+                    read,
+                    content,
+                    comment,
+                    prev,
+                    next
+                } = res.data
+                if (res.code === 200) {
+                    // 这块的的信息没有必要用模板字符串，感觉很麻烦，而且只有一个整体数据，用jq的方法放进去
+                    $('#title').text(title)
+                    $('#author').text(author)
+                    $('#date').text(date)
+                    $('#read').text(read)
+                    $('#content').html(content)
+                    $('#comment').text(comment)
+                    $('#type').text(type_name)
+                        // *************************************
+                    num = comment;
+                    if (num < 1) {
+                        $('#math').text('快来发表第一条评论吧')
+                    } else(
+                        $('#math').text(num + '条评论')
+
+                    )
+                    $('#href').text(type_name)
+                    $('#href').attr('href', 'list.html?id=' + type_id)
+                        // 2.上一篇下一篇文章    
+                        // 上一篇文章和下一篇文章
+                        // 首先需要判断一下看是否存在上一篇文章
+                        // 如果点击的就是首篇或者最后一篇那么久不会存在上一篇或者下一篇
+                        // 判断结束后 改变他们的text以及自定义属性href就行了
+                    if (prev) {
+                        $('#prev').attr('href', 'article.html?id=' + prev.id);
+                        $('#prev').html(prev.title)
+                    } else {
+                        $('#prev').html('')
+                    }
+                    if (next) {
+                        $('#next').attr('href', 'article.html?id=' + next.id);
+                        $('#next').html(next.title)
+                    } else {
+                        $('#next').html('')
+                    }
+                } else {
+                    alert(res.msg)
+                }
+            })
+            // 3.显示评论
+
+
+
+
+
+
+        article.comment(curId).then(function(res) {
+            console.log(res);
+            var htmlStr = template('commentS', res)
+            $('#comments').html(htmlStr)
+
+        })
+    }
+
     // 4.新增评论
+    // 设置点击事件
+    $('#publishbtn').click(function() {
+        //  简单判空  去前后空格 获取用户输入内容
+        var name = $('#commentName').val().trim()
+        var doc = $('#commentContent').val().trim()
+        console.log(name, doc);
+        if (name.length === 0 || doc.length === 0) {
+            alert('输入评论信息不完整，请重新输入')
+            return;
+        }
+        // 掉接口 渲染到页面
+        article.publish(name, doc, curId).then(function(res) {
+            console.log(res);
+            if (res.code === 200) {
+                $('#commentName').val('')
+                $('#commentContent').val('')
+                num = num + 1;
+                publishComment()
+
+            } else {
+                alert(res.msg)
+
+
+            }
+        })
+
+    })
+
+
     // 5.事件戳转换成事件day.js学习
 </script>
 

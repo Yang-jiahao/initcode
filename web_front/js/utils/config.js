@@ -18,5 +18,10 @@ var APILIST = {
     hot: BASEURL + '/lastest',
     // 各种类型文章获取
     get: BASEURL + '/search',
-
+    // 获取文章详情以及上下篇文章的地址
+    article: BASEURL + '/article',
+    // 获取文章评论
+    comment: BASEURL + '/get_comments',
+    // 发表评论
+    publish: BASEURL + '/post_comment',
 }

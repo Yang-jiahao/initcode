@@ -19,6 +19,15 @@ var article = {
     getarticle: function(id, curpage) {
         return $.get(APILIST.get, { 'type': id, 'page': curpage })
 
-    }
+    },
+    article: function(id) {
+        return $.get(APILIST.article, { 'id': id })
+    },
+    comment: function(id) {
+        return $.get(APILIST.comment, { 'article_id': id })
+    },
+    publish: function(name, content, id) {
+        return $.post(APILIST.publish, { 'name': name, 'content': content, 'article_id': id })
 
+    }
 }
