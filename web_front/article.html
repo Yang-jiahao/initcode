@@ -209,6 +209,9 @@
 <script src="./js/utils/config.js"></script>
 <script src="./js/utils/category.js"></script>
 <script src="js/utils/article_list.js"></script>
+<script src="./js/dayjs/dayjs.min.js"></script>
+<script src="./js/dayjs/zh_cn.js"></script>
+<script src="./js/dayjs/relative.min.js"></script>
 <!-- 评论的模板字符 -->
 <script id="commentS" type="html/text">
     {{each data item}}
@@ -291,10 +294,15 @@
             // 3.显示评论
 
 
+        dayjs.locale('zh-cn'); // 全局设置，中文
+        // 使用插件
+        dayjs.extend(dayjs_plugin_relativeTime);
+
+        // item.relativeTime = item.dt --->相对时间
+        // itemTime = getRelativeTime(item.dt)
 
 
-
-
+        item.relativeTime = dayjs(item.dt).fromNow()
         article.comment(curId).then(function(res) {
             console.log(res);
             var htmlStr = template('commentS', res)
