@@ -233,6 +233,12 @@
     <script src="js/utils/article_list.js"></script>
     <!-- <script src="./js/jquery.pagination.min.js"></script> -->
     <script src="./js/jquery.twbsPagination.min.js"></script>
+
+    <!-- 引入懒加载文件 -->
+    <script src="./js/lazyload.js"></script>
+
+
+
     <!-- 文章类别的模板字符 -->
     <script id="frontCategroy" type="text/html">
         {{each data item}} {{if item.id==curType}}
@@ -245,7 +251,7 @@
     <script id="frontArticle" type="text/html">
         {{each data item}}
         <div class="common_news_list">
-            <a href="article.html?id={{item.id}}" class="list_pic"><img src={{item.cover}} alt=""></a>
+            <a href="article.html?id={{item.id}}" class="list_pic"><img data-src={{item.cover}} src="./images/pic02.jpg" alt=""></a>
             <h4><a href="article.html?id={{item.id}}">{{item.title}}</a></h4>
             <p>{{item.content}}</p>
             <div class="new_info">
@@ -293,6 +299,8 @@
                 if (res.code === 200) {
                     var htmlStr = template('frontArticle', res)
                     $('#Article').html(htmlStr)
+                        // lazyload() //启动懒加载
+                    $('img').lazyload();
                     if (res.pages < 2) {
                         $('#pagination-demo').destroy();
                         return;

@@ -209,15 +209,20 @@
 <script src="./js/utils/config.js"></script>
 <script src="./js/utils/category.js"></script>
 <script src="js/utils/article_list.js"></script>
+<!-- 引入dayjs -->
 <script src="./js/dayjs/dayjs.min.js"></script>
+<!-- 引入语言包 -->
 <script src="./js/dayjs/zh_cn.js"></script>
+<!-- 引入相对时间插件 -->
 <script src="./js/dayjs/relative.min.js"></script>
+
+
 <!-- 评论的模板字符 -->
 <script id="commentS" type="html/text">
     {{each data item}}
     <div class="comment_detail_list">
         <div class="person_pic fl">{{item.name.substring(0,1)}}</div>
-        <div class="name_time fl"><b>{{item.name}}</b><span>{{item.dt}}</span></div>
+        <div class="name_time fl"><b>{{item.name}}</b><span>{{item.curdt}}</span></div>
         <div class="comment_text fl">
             {{item.content}}
         </div>
@@ -232,7 +237,9 @@
     console.log(curId);
     // 新增一个全局变量
     var num = null;
-
+    dayjs.locale('zh-cn'); // 全局设置，中文
+    // 使用插件
+    dayjs.extend(dayjs_plugin_relativeTime);
     publishComment()
 
     function publishComment() {
@@ -292,24 +299,26 @@
                 }
             })
             // 3.显示评论
+            // item.relativeTime = item.dt --->相对时间
+            // itemTime = getRelativeTime(item.dt)
 
-
-        dayjs.locale('zh-cn'); // 全局设置，中文
-        // 使用插件
-        dayjs.extend(dayjs_plugin_relativeTime);
-
-        // item.relativeTime = item.dt --->相对时间
-        // itemTime = getRelativeTime(item.dt)
-
-
-        item.relativeTime = dayjs(item.dt).fromNow()
+        // item.relativeTime = dayjs(item.dt).fromNow()
         article.comment(curId).then(function(res) {
-            console.log(res);
-            var htmlStr = template('commentS', res)
-            $('#comments').html(htmlStr)
+            // console.log(res);
+            if (res.code === 200) {
 
+                res.data.forEach(function(item) {
+                    var curdt = item.dt;
+                    curdt = dayjs(curdt).fromNow()
+                    item.curdt = curdt;
+                })
+                var htmlStr = template('commentS', res)
+                $('#comments').html(htmlStr)
+            }
         })
     }
+
+
 
     // 4.新增评论
     // 设置点击事件
@@ -323,6 +332,7 @@
             return;
         }
         // 掉接口 渲染到页面
+
         article.publish(name, doc, curId).then(function(res) {
             console.log(res);
             if (res.code === 200) {

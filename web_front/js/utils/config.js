@@ -1,8 +1,9 @@
 // 所有接口基地址
 var BASEURL = 'http://192.168.0.107:8000'
-    // var BASEURL = 'http://localhost:8000'
+    // 这个都是自己电脑开的服务员器
+    // var BASEURL = 'http://localhost:8000'   这个都是自己电脑开的服务员器
     // 老师放在阿里上的 2.4---3.4 一个月时间
-    // var BASEURL = 'http://39.99.130.177:8000'
+    // var BASEURL = 'http://39.99.130.177:8000'   这个是老师买的云端
 
 // 所有接口
 var APILIST = {
